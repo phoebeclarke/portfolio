@@ -1,0 +1,2 @@
+class FiatController < ApplicationController
+end

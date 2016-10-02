@@ -1,0 +1,6 @@
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+	def iframe_action
+		response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM http://www.clarkies.me.uk"
+	end
+end

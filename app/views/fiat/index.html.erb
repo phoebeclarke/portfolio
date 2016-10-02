@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>FIAT</title>
+		<%= javascript_include_tag 'fiat' %>
+		<%= stylesheet_link_tag 'fiat' %>
+	</head>
+<body>
+    <div id="tabs"></div>
+    <div id="content">
+        <div id="title">
+            <h2>Forecast Intervention Tool (FIAT)</h2>
+        </div>
+        <div id="OuterContainer">
+            <h4 id="FcstInfo">Please select a date and model run</h4>
+            <div id="InnerContainer"></div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div id="HourSelect">
+            <div id="hourSelectText">
+                Hour Select 
+                <div class="tooltip">
+                    <img src="/assets/fiat/icons/info.png" />
+                    <span class="tooltiptext">The arrow keys can also be used to change the hour.<ul><li>Up/left decreases</li><li>Right/down increases.</li></ul></span>
+                </div>
+            </div>    
+            <div id="hourSelectBtns"></div>
+        </div>
+        <div id="DateSelect">
+            <div id="dateSelectText">Date</div>
+        </div>
+        <div id="ModelRunSelect">
+            <div id="modelRunSelectText">Model Run</div>
+        </div>
+        <div id="FcstButtonList">
+            <div id="forecastSelectText">Forecasts</div>
+        </div>
+    </div>
+</body>
+</html>

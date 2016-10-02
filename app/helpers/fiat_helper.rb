@@ -1,0 +1,2 @@
+module FiatHelper
+end
