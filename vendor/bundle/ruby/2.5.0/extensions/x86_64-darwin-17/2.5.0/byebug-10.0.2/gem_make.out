@@ -1,0 +1,19 @@
+current directory: /Users/phclarke/Desktop/portfolio/vendor/bundle/ruby/2.5.0/gems/byebug-10.0.2/ext/byebug
+/usr/local/opt/ruby/bin/ruby -r ./siteconf20181008-2043-rlap3x.rb extconf.rb
+creating Makefile
+
+current directory: /Users/phclarke/Desktop/portfolio/vendor/bundle/ruby/2.5.0/gems/byebug-10.0.2/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /Users/phclarke/Desktop/portfolio/vendor/bundle/ruby/2.5.0/gems/byebug-10.0.2/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.bundle
+
+current directory: /Users/phclarke/Desktop/portfolio/vendor/bundle/ruby/2.5.0/gems/byebug-10.0.2/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.bundle ./.gem.20181008-2043-t2oljc/byebug
