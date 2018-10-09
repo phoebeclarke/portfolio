@@ -12,29 +12,29 @@ NULLCMD = :
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/local/Cellar/ruby/2.5.1/include/ruby-2.5.0
+topdir = /usr/include/ruby-2.5.0
 hdrdir = $(topdir)
-arch_hdrdir = /usr/local/Cellar/ruby/2.5.1/include/ruby-2.5.0/x86_64-darwin17
+arch_hdrdir = /usr/include/x86_64-linux-gnu/ruby-2.5.0
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/usr/local/Cellar/ruby/2.5.1
-rubysitearchprefix = $(rubylibprefix)/$(sitearch)
-rubyarchprefix = $(rubylibprefix)/$(arch)
+prefix = $(DESTDIR)/usr
+rubysitearchprefix = $(sitearchlibdir)/$(RUBY_BASE_NAME)
+rubyarchprefix = $(archlibdir)/$(RUBY_BASE_NAME)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
 exec_prefix = $(prefix)
-vendorarchhdrdir = $(vendorhdrdir)/$(sitearch)
-sitearchhdrdir = $(sitehdrdir)/$(sitearch)
-rubyarchhdrdir = $(rubyhdrdir)/$(arch)
+vendorarchhdrdir = $(sitearchincludedir)/$(RUBY_VERSION_NAME)/vendor_ruby
+sitearchhdrdir = $(sitearchincludedir)/$(RUBY_VERSION_NAME)/site_ruby
+rubyarchhdrdir = $(archincludedir)/$(RUBY_VERSION_NAME)
 vendorhdrdir = $(rubyhdrdir)/vendor_ruby
 sitehdrdir = $(rubyhdrdir)/site_ruby
 rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
-vendorarchdir = $(vendorlibdir)/$(sitearch)
+vendorarchdir = $(rubysitearchprefix)/vendor_ruby/$(ruby_version)
 vendorlibdir = $(vendordir)/$(ruby_version)
-vendordir = $(DESTDIR)/usr/local/lib/ruby/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20181008-2043-1lktsjh
-sitelibdir = $(DESTDIR)./.gem.20181008-2043-1lktsjh
-sitedir = $(DESTDIR)/usr/local/lib/ruby/site_ruby
-rubyarchdir = $(rubylibdir)/$(arch)
+vendordir = $(rubylibprefix)/vendor_ruby
+sitearchdir = $(DESTDIR)./.gem.20181009-3056-9smfey
+sitelibdir = $(DESTDIR)./.gem.20181009-3056-9smfey
+sitedir = $(DESTDIR)/usr/local/lib/site_ruby
+rubyarchdir = $(rubyarchprefix)/$(ruby_version)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
 sitearchincludedir = $(includedir)/$(sitearch)
 archincludedir = $(includedir)/$(arch)
@@ -50,11 +50,12 @@ dvidir = $(docdir)
 htmldir = $(docdir)
 infodir = $(datarootdir)/info
 docdir = $(datarootdir)/doc/$(PACKAGE)
-oldincludedir = $(SDKROOT)/usr/include
+oldincludedir = $(DESTDIR)/usr/include
 includedir = $(prefix)/include
-localstatedir = $(prefix)/var
+runstatedir = $(DESTDIR)/var/run
+localstatedir = $(DESTDIR)/var
 sharedstatedir = $(prefix)/com
-sysconfdir = $(prefix)/etc
+sysconfdir = $(DESTDIR)/etc
 datadir = $(datarootdir)
 datarootdir = $(prefix)/share
 libexecdir = $(exec_prefix)/libexec
@@ -63,12 +64,12 @@ bindir = $(exec_prefix)/bin
 archdir = $(rubyarchdir)
 
 
-CC = clang
-CXX = clang++
+CC = gcc
+CXX = g++
 LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
 LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
-LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static -framework Foundation
+LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
 empty =
 OUTFLAG = -o $(empty)
 COUTFLAG = -o $(empty)
@@ -79,40 +80,40 @@ cflags   = $(optflags) $(debugflags) $(warnflags)
 cxxflags = $(optflags) $(debugflags) $(warnflags)
 optflags = -O3
 debugflags = -ggdb3
-warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens
-CCDLFLAGS = -fno-common
-CFLAGS   = $(CCDLFLAGS) $(cflags)  -fno-common -pipe $(ARCH_FLAG)
+warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration -Wdeprecated-declarations -Wmisleading-indentation -Wno-packed-bitfield-compat -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wimplicit-fallthrough=0 -Wduplicated-cond -Wrestrict
+CCDLFLAGS = -fPIC
+CFLAGS   = $(CCDLFLAGS) -g -O2 -fdebug-prefix-map=/build/ruby2.5-STZSAE/ruby2.5-2.5.1=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS = -DHAVE_OPENSSL_BIO_H  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags)
-CXXFLAGS = $(CCDLFLAGS) $(cxxflags) $(ARCH_FLAG)
-ldflags  = -L. -fstack-protector -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/openssl/lib -L/usr/local/opt/readline/lib
-dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress -L/usr/local/opt/libyaml/lib -L/usr/local/opt/openssl/lib -L/usr/local/opt/readline/lib 
+CPPFLAGS =  -Wdate-time -D_FORTIFY_SOURCE=2 $(DEFS) $(cppflags)
+CXXFLAGS = $(CCDLFLAGS) -g -O2 -fdebug-prefix-map=/build/ruby2.5-STZSAE/ruby2.5-2.5.1=. -fstack-protector-strong -Wformat -Werror=format-security $(ARCH_FLAG)
+ldflags  = -L. -Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -fstack-protector -rdynamic -Wl,-export-dynamic
+dldflags = -Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--compress-debug-sections=zlib 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
-LDSHARED = $(CC) -dynamic -bundle
-LDSHAREDXX = $(CXX) -dynamic -bundle
-AR = libtool -static
+LDSHARED = $(CC) -shared
+LDSHAREDXX = $(CXX) -shared
+AR = ar
 EXEEXT = 
 
-RUBY_INSTALL_NAME = $(RUBY_BASE_NAME)
-RUBY_SO_NAME = ruby.2.5.1
+RUBY_INSTALL_NAME = $(RUBY_BASE_NAME)2.5
+RUBY_SO_NAME = ruby-2.5
 RUBYW_INSTALL_NAME = 
 RUBY_VERSION_NAME = $(RUBY_BASE_NAME)-$(ruby_version)
 RUBYW_BASE_NAME = rubyw
 RUBY_BASE_NAME = ruby
 
-arch = x86_64-darwin17
+arch = x86_64-linux-gnu
 sitearch = $(arch)
 ruby_version = 2.5.0
-ruby = $(bindir)/$(RUBY_BASE_NAME)
+ruby = $(bindir)/$(RUBY_BASE_NAME)2.5
 RUBY = $(ruby)
 ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/backward.h $(hdrdir)/ruby/ruby.h $(hdrdir)/ruby/defines.h $(hdrdir)/ruby/missing.h $(hdrdir)/ruby/intern.h $(hdrdir)/ruby/st.h $(hdrdir)/ruby/subst.h $(arch_hdrdir)/ruby/config.h
 
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
-RMDIRS = rmdir -p
-MAKEDIRS = mkdir -p
+RMDIRS = rmdir --ignore-fail-on-non-empty -p
+MAKEDIRS = /bin/mkdir -p
 INSTALL = /usr/bin/install -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
@@ -122,8 +123,8 @@ TOUCH = exit >
 #### End of system configuration section. ####
 
 preload = 
-libpath = . $(libdir) /usr/local/opt/libyaml/lib /usr/local/opt/openssl/lib /usr/local/opt/readline/lib
-LIBPATH =  -L. -L$(libdir) -L/usr/local/opt/libyaml/lib -L/usr/local/opt/openssl/lib -L/usr/local/opt/readline/lib
+libpath = . $(archlibdir)
+LIBPATH =  -L. -L$(archlibdir)
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -134,16 +135,16 @@ extout =
 extout_prefix = 
 target_prefix = /puma
 LOCAL_LIBS = 
-LIBS = $(LIBRUBYARG_SHARED) -lssl -lcrypto  -lpthread -ldl -lobjc 
+LIBS = $(LIBRUBYARG_SHARED)  -lpthread -lgmp -ldl -lcrypt -lm   -lc
 ORIG_SRCS = http11_parser.c io_buffer.c mini_ssl.c puma_http11.c
 SRCS = $(ORIG_SRCS) 
 OBJS = http11_parser.o io_buffer.o mini_ssl.o puma_http11.o
-HDRS = $(srcdir)/http11_parser.h $(srcdir)/ext_help.h
+HDRS = $(srcdir)/ext_help.h $(srcdir)/http11_parser.h
 LOCAL_HDRS = 
 TARGET = puma_http11
 TARGET_NAME = puma_http11
 TARGET_ENTRY = Init_$(TARGET_NAME)
-DLLIB = $(TARGET).bundle
+DLLIB = $(TARGET).so
 EXTSTATIC = 
 STATIC_LIB = 
 
@@ -257,7 +258,6 @@ $(TARGET_SO): $(OBJS) Makefile
 	$(ECHO) linking shared-object puma/$(DLLIB)
 	-$(Q)$(RM) $(@)
 	$(Q) $(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
-	$(Q) $(POSTLINK)
 
 
 
