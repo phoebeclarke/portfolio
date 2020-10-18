@@ -20,3 +20,6 @@ vendor/bundle
 
 # Ignore temporary vim files
 *~
+
+# Rails
+.keep
